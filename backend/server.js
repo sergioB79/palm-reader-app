@@ -6,33 +6,52 @@ const path = require('path');
 
 const app = express();
 
-// --- Middleware ---
+// Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // To parse form data
 
 // --- Serve Static Frontend Files ---
-// This is the key change: Vercel needs an explicit path to the public folder.
 const publicPath = path.join(__dirname, '..');
 app.use(express.static(publicPath));
 
 // --- API Route for Analysis ---
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer(); // Use multer for multipart/form-data
 
-app.post('/analyze', upload.fields([{ name: 'dominantHand', maxCount: 1 }, { name: 'otherHand', maxCount: 1 }]), async (req, res) => {
+app.post('/analyze', upload.none(), async (req, res) => {
     try {
-        if (!req.files || !req.files.dominantHand) {
-            return res.status(400).json({ error: 'Dominant hand image is required.' });
+        const { dominantHandChoice, dominantHand, otherHand, readingType } = req.body;
+
+        if (!dominantHand || !otherHand) {
+            return res.status(400).json({ error: 'Both hand images are required.' });
         }
 
-        const dominantHandImage = req.files.dominantHand[0];
-        const imageBase64 = dominantHandImage.buffer.toString('base64');
+        let prompt;
+        if (readingType === 'brief') {
+            prompt = `You are a mystic Romani palm reader. Provide a concise, intriguing, and slightly mysterious palm reading based on the two images provided. The user's dominant hand is their ${dominantHandChoice} hand. Keep the reading to 3-4 sentences, focusing on the most prominent lines (like Life, Heart, and Head) and the overall hand shape. End with a tempting hint that a more detailed reading will reveal much more.`;
+        } else { // detailed
+            prompt = `You are an expert Romani palm reader with deep knowledge of ancient traditions. The user has provided two images: their dominant (${dominantHandChoice}) hand and their other hand. Perform a comprehensive and insightful reading. Analyze the lines (Heart, Head, Life, Fate, Sun, Mercury, Health, Marriage, Travel, Intuition), the mounts (Venus, Jupiter, Saturn, Apollo, Mercury, Luna, Mars), the finger shapes, and the overall hand shape. Synthesize this information into a flowing, narrative-style reading. Cover personality traits, life path, potential challenges, hidden strengths, love, career, and future indications. Be detailed, mystical, and profound.`;
+        }
 
         const requestBody = {
-            requests: [
+            contents: [
                 {
-                    image: { content: imageBase64 },
-                    features: [{ type: 'LABEL_DETECTION', maxResults: 5 }],
-                },
+                    role: "user",
+                    parts: [
+                        { text: prompt },
+                        {
+                            inlineData: {
+                                mimeType: "image/jpeg",
+                                data: dominantHand
+                            }
+                        },
+                        {
+                            inlineData: {
+                                mimeType: "image/jpeg",
+                                data: otherHand
+                            }
+                        }
+                    ]
+                }
             ],
         };
 
@@ -41,27 +60,20 @@ app.post('/analyze', upload.fields([{ name: 'dominantHand', maxCount: 1 }, { nam
             return res.status(500).json({ error: 'Server configuration error: Missing API key.' });
         }
 
-        const apiUrl = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${apiKey}`;
+
         const visionResponse = await axios.post(apiUrl, requestBody);
 
-        const labels = visionResponse.data.responses[0].labelAnnotations;
-        if (!labels || labels.length === 0) {
-            return res.json({ reading: "The image is unclear, but your spirit feels strong. A mysterious energy surrounds you." });
-        }
-
-        const topLabel = labels[0].description.toLowerCase();
-        const reading = `The vision is hazy, but the spirits whisper about what they see. They recognize a '${topLabel}' in your palm\'s reflection. This suggests a path filled with creativity and unexpected journeys. Your heart line seems strong, indicating a passionate nature...`;
-
-        res.json({ reading: reading });
+        const reading = visionResponse.data.candidates[0].content.parts[0].text;
+        res.json({ reading });
 
     } catch (error) {
         console.error('Error during AI analysis:', error.response ? error.response.data : error.message);
-        res.status(500).json({ error: 'Failed to analyze the image.' });
+        res.status(500).json({ error: 'Failed to analyze the image. Please check the server logs.' });
     }
 });
 
 // --- Root Route Handler ---
-// This ensures that visiting the base URL serves the index.html file.
 app.get('/', (req, res) => {
     res.sendFile(path.join(publicPath, 'index.html'));
 });

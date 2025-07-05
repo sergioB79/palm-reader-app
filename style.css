@@ -1,99 +1,258 @@
-
+/* Custom styles for a more mysterious aesthetic and responsiveness */
 body {
-    background-color: #1a1a2e;
-    color: #e0e0e0;
-    font-family: 'Cinzel', serif;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
-header {
-    padding: 1rem;
-}
-
-.language-switcher button {
-    background: none;
-    border: 1px solid #e0e0e0;
-    color: #e0e0e0;
-    padding: 0.5rem 1rem;
-    margin: 0 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.language-switcher button.active, .language-switcher button:hover {
-    background-color: #e0e0e0;
-    color: #1a1a2e;
-}
-
-main {
-    padding: 2rem;
-}
-
-section {
-    margin-bottom: 3rem;
-}
-
-h1 {
-    font-size: 3rem;
-    color: #f7b733;
-}
-
-h2 {
-    font-size: 2rem;
-    color: #f7b733;
-}
-
-.upload-container {
+    font-family: 'Inter', sans-serif;
+    background-color: #1a1a2e; /* Deep dark blue/purple background */
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    margin: 2rem 0;
+    align-items: flex-start; /* Align to top for better scrollability on mobile */
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #e0e0e0; /* Light text for contrast */
 }
-
-.upload-box {
-    border: 2px dashed #f7b733;
+.container {
+    background-color: #2a003a; /* Darker purple container */
+    border-radius: 1.5rem; /* More rounded corners */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1); /* Deeper shadow */
+    padding: 2.5rem;
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px; /* Add some margin from the top */
+    border: 1px solid #4a005a; /* Subtle border */
+}
+h1 {
+    color: #f0f0f0; /* Off-white for headings */
+    font-size: 2.8rem; /* Larger heading */
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.2); /* Subtle glow */
+}
+p {
+    color: #c0c0c0; /* Slightly lighter text for paragraphs */
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+.upload-area {
+    border: 2px dashed #5a2c70; /* Darker purple dashed border */
+    border-radius: 0.75rem;
     padding: 2rem;
-    width: 200px;
-}
-
-.upload-box label {
-    display: block;
-    margin-bottom: 1rem;
-}
-
-button, input[type="submit"] {
-    background-color: #f7b733;
-    color: #1a1a2e;
-    border: none;
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+    position: relative; /* For image preview positioning */
+    min-height: 200px; /* Ensure a minimum height for the upload area */
+    background-color: #3a004a; /* Slightly lighter background for upload area */
 }
-
-button:hover, input[type="submit"]:hover {
-    background-color: #e0e0e0;
+.upload-area:hover {
+    border-color: #a78bfa; /* Lighter purple on hover */
+    background-color: #4a005a; /* Darker purple on hover */
 }
-
+.upload-area input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.upload-icon {
+    font-size: 3rem;
+    color: #9370db; /* Medium purple icon */
+    margin-bottom: 0.75rem;
+}
+.upload-text {
+    color: #e0e0e0;
+    font-weight: 600;
+}
+.preview-image {
+    max-width: 100%;
+    max-height: 180px; /* Limit preview height */
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    object-fit: contain; /* Ensure image fits without distortion */
+    display: none; /* Hidden by default */
+    border: 1px solid #7e22ce; /* Border for preview image */
+}
+.button-primary {
+    background-image: linear-gradient(to right, #7e22ce, #a78bfa); /* Richer purple gradient */
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Deeper shadow */
+    border: none;
+    cursor: pointer;
+    display: inline-block; /* For proper button sizing */
+}
+.button-primary:hover {
+    transform: translateY(-3px); /* More pronounced lift */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Even deeper shadow */
+}
+.button-primary:disabled {
+    background-image: linear-gradient(to right, #5a2c70, #7e22ce); /* Darker gradient when disabled */
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+.button-secondary {
+    background-color: #5a2c70; /* Darker purple */
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid #7e22ce;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+.button-secondary:hover {
+    background-color: #7e22ce;
+}
+.radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+.radio-option {
+    display: flex;
+    align-items: center;
+    background-color: #3a004a; /* Darker background for options */
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    border: 2px solid #5a2c70; /* Darker border */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #e0e0e0;
+}
+.radio-option:hover {
+    border-color: #a78bfa; /* Lighter purple on hover */
+}
+.radio-option input[type="radio"] {
+    margin-right: 0.75rem;
+    accent-color: #a78bfa; /* Lighter purple accent for radio button */
+}
+.radio-option.selected {
+    border-color: #a78bfa; /* Stronger purple when selected */
+    background-color: #4a005a; /* Darker blue when selected */
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.3); /* Subtle glow */
+}
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.1); /* Lighter spinner border */
+    border-left-color: #a78bfa; /* Lighter purple spinner */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+    display: none; /* Hidden by default */
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.result-box {
+    background-color: #3a004a; /* Darker background for results */
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-top: 2rem;
+    text-align: left;
+    color: #e0e0e0; /* Light text for results */
+    line-height: 1.6;
+    white-space: pre-wrap; /* Preserve whitespace and line breaks */
+    overflow-x: auto; /* Allow horizontal scrolling for long lines */
+    border: 1px solid #5a2c70; /* Subtle border */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); /* Inner shadow for depth */
+}
 .hidden {
     display: none;
 }
-
-#reading-section {
-    border-top: 1px solid #f7b733;
-    padding-top: 2rem;
+.message-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2a003a; /* Darker background for message box */
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    z-index: 1000;
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+    display: none; /* Hidden by default */
+    border: 1px solid #5a2c70;
+}
+.message-box h3 {
+    font-size: 1.5rem;
+    color: #f0f0f0;
+    margin-bottom: 1rem;
+}
+.message-box p {
+    color: #c0c0c0;
+    margin-bottom: 1.5rem;
+}
+.message-box button {
+    background-color: #a78bfa; /* Lighter purple for message button */
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.message-box button:hover {
+    background-color: #7e22ce; /* Darker purple on hover */
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
+    z-index: 999;
+    display: none; /* Hidden by default */
 }
 
-#payment-form input[type="email"] {
-    padding: 1rem;
-    width: 300px;
-    margin-right: 1rem;
+/* Camera Modal Styles */
+.camera-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Very dark overlay */
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
 }
-
-footer {
-    margin-top: 3rem;
-    padding: 1rem;
-    border-top: 1px solid #e0e0e0;
+.camera-content {
+    background-color: #2a003a;
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 90%;
+    width: 600px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid #4a005a;
+}
+.camera-content video, .camera-content canvas {
+    width: 100%;
+    max-width: 560px; /* Max width for video/canvas */
+    height: auto;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid #a78bfa;
+    object-fit: cover; /* Ensure video fills the space */
 }

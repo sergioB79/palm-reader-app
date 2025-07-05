@@ -3,57 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang="en">Romani Hand-Palm Reading</title>
+    <title>Mystic Palm Reading</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="language-switcher">
-                <button data-lang-switch="en" class="active">EN</button>
-                <button data-lang-switch="fr">FR</button>
-                <button data-lang-switch="pt">PT</button>
-                <button data-lang-switch="ca">CA</button>
+    <div class="container">
+        <h1>Mystic Palm Reading</h1>
+        <p>Unveil the secrets of your destiny. Upload clear pictures of your hands or take new ones with your camera, and let ancient wisdom guide our AI to provide a profound Romani-style palm reading.</p>
+
+        <!-- Dominant Hand Selection -->
+        <div id="dominantHandSection" class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-200 mb-4">Which is your dominant hand?</h2>
+            <div class="radio-group">
+                <label class="radio-option" id="radioLeft">
+                    <input type="radio" name="dominantHand" value="left" class="form-radio">
+                    <span>Left Hand</span>
+                </label>
+                <label class="radio-option" id="radioRight">
+                    <input type="radio" name="dominantHand" value="right" class="form-radio">
+                    <span>Right Hand</span>
+                </label>
             </div>
-        </nav>
-    </header>
-    <main>
-        <section id="intro">
-            <h1 data-lang="en">Unveil Your Destiny</h1>
-            <p data-lang="en">Step into the mystical world of Romani palmistry. Upload images of your hands and let the ancient wisdom reveal the secrets of your past, present, and future.</p>
-        </section>
-        <section id="upload-section">
-            <h2 data-lang="en">Upload Your Hand Images</h2>
-            <div class="upload-container">
-                <div class="upload-box">
-                    <label for="dominant-hand" data-lang="en">Dominant Hand</label>
-                    <input type="file" id="dominant-hand" accept="image/*">
-                </div>
-                <div class="upload-box">
-                    <label for="other-hand" data-lang="en">Other Hand</label>
-                    <input type="file" id="other-hand" accept="image/*">
-                </div>
+            <p class="text-sm text-gray-400 mt-2">Your dominant hand illuminates your conscious path and present self, while your other hand whispers tales of your innate potential and past journeys.</p>
+        </div>
+
+        <!-- Dominant Hand Upload/Capture -->
+        <div id="dominantHandUploadSection" class="hidden">
+            <h2 class="text-xl font-semibold text-gray-200 mb-4">For your <span id="dominantHandLabel"></span> hand:</h2>
+            <div class="flex flex-col md:flex-row justify-center gap-4 mb-4">
+                <button id="dominantHandUploadBtn" class="button-secondary flex-1">
+                    <i class="fas fa-upload mr-2"></i> Upload Image
+                </button>
+                <button id="dominantHandCaptureBtn" class="button-secondary flex-1">
+                    <i class="fas fa-camera mr-2"></i> Take Photo
+                </button>
             </div>
-            <button id="analyze-btn" data-lang="en">Analyze Hands</button>
-        </section>
-        <section id="reading-section" class="hidden">
-            <h2 data-lang="en">A Glimpse into Your Future</h2>
-            <div id="teaser-reading">
-                <p data-lang="en">The lines on your hand tell a story of a passionate and determined soul. You are destined for greatness, but there are challenges ahead that will test your spirit...</p>
+            <div class="upload-area" id="dominantHandFileUploadArea">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <p class="upload-text">Drag & Drop or Click to Upload</p>
+                <input type="file" id="dominantHandInput" accept="image/*" class="hidden">
+                <img id="dominantHandPreview" class="preview-image" alt="Dominant Hand Preview">
+                <button id="dominantHandRetakeBtn" class="button-secondary hidden">Retake Photo / Choose New File</button>
             </div>
-            <div id="payment-section">
-                <h3 data-lang="en">Unlock Your Full Reading</h3>
-                <p data--lang="en">For the complete, detailed analysis of your life's journey, please enter your email and proceed to payment.</p>
-                <form id="payment-form">
-                    <input type="email" id="email-input" placeholder="Enter your email" required>
-                    <button type="submit" data-lang="en">Pay Now</button>
-                </form>
+        </div>
+
+        <!-- Other Hand Upload/Capture -->
+        <div id="otherHandUploadSection" class="hidden">
+            <h2 class="text-xl font-semibold text-gray-200 mb-4">For your <span id="otherHandLabel"></span> hand:</h2>
+            <div class="flex flex-col md:flex-row justify-center gap-4 mb-4">
+                <button id="otherHandUploadBtn" class="button-secondary flex-1">
+                    <i class="fas fa-upload mr-2"></i> Upload Image
+                </button>
+                <button id="otherHandCaptureBtn" class="button-secondary flex-1">
+                    <i class="fas fa-camera mr-2"></i> Take Photo
+                </button>
             </div>
-        </section>
-    </main>
-    <footer>
-        <p data-lang="en">&copy; 2025 Romani Hand-Palm Reading. All rights reserved.</p>
-    </footer>
+            <div class="upload-area" id="otherHandFileUploadArea">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <p class="upload-text">Drag & Drop or Click to Upload</p>
+                <input type="file" id="otherHandInput" accept="image/*" class="hidden">
+                <img id="otherHandPreview" class="preview-image" alt="Other Hand Preview">
+                <button id="otherHandRetakeBtn" class="button-secondary hidden">Retake Photo / Choose New File</button>
+            </div>
+        </div>
+
+        <!-- Get Brief Reading Button -->
+        <button id="getBriefReadingButton" class="button-primary w-full mt-6" disabled>Get Brief Reading</button>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="loading-spinner"></div>
+
+        <!-- Brief Reading Display -->
+        <div id="briefReadingDisplay" class="result-box hidden">
+            <h2 class="text-2xl font-bold text-gray-100 mb-4">Your Brief Palm Reading:</h2>
+            <p id="briefReadingContent"></p>
+            <button id="unlockDetailedReadingButton" class="button-primary w-full mt-6">Unlock Detailed Reading ($9.99)</button>
+        </div>
+
+        <!-- Detailed Reading Display -->
+        <div id="detailedReadingDisplay" class="result-box hidden">
+            <h2 class="text-2xl font-bold text-gray-100 mb-4">Your Detailed Palm Reading:</h2>
+            <p id="detailedReadingContent"></p>
+        </div>
+    </div>
+
+    <!-- Custom Message Box -->
+    <div id="messageBox" class="message-box">
+        <h3 id="messageTitle"></h3>
+        <p id="messageContent"></p>
+        <button id="messageCloseButton">Close</button>
+    </div>
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Camera Modal -->
+    <div id="cameraModal" class="camera-modal hidden">
+        <div class="camera-content">
+            <h2 class="text-xl font-semibold text-gray-200 mb-4">Capture Your Hand</h2>
+            <video id="cameraFeed" autoplay playsinline class="rounded-lg"></video>
+            <canvas id="cameraCanvas" class="hidden"></canvas>
+            <div class="camera-buttons">
+                <button id="captureButton" class="button-primary flex-1"><i class="fas fa-camera mr-2"></i> Capture Photo</button>
+                <button id="cancelCameraButton" class="button-secondary flex-1"><i class="fas fa-times mr-2"></i> Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

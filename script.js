@@ -1,146 +1,226 @@
-
 document.addEventListener('DOMContentLoaded', () => {
-    const languageButtons = document.querySelectorAll('[data-lang-switch]');
-    const langElements = document.querySelectorAll('[data-lang]');
-    const analyzeBtn = document.getElementById('analyze-btn');
-    const readingSection = document.getElementById('reading-section');
-    const paymentForm = document.getElementById('payment-form');
-    const dominantHandInput = document.getElementById('dominant-hand');
-    const otherHandInput = document.getElementById('other-hand');
-    const teaserReading = document.getElementById('teaser-reading');
+    // UI Elements
+    const dominantHandRadios = document.querySelectorAll('input[name="dominantHand"]');
+    const dominantHandSection = document.getElementById('dominantHandSection');
+    const dominantHandUploadSection = document.getElementById('dominantHandUploadSection');
+    const otherHandUploadSection = document.getElementById('otherHandUploadSection');
+    const dominantHandLabel = document.getElementById('dominantHandLabel');
+    const otherHandLabel = document.getElementById('otherHandLabel');
 
-    const translations = {
-        en: {
-            "Romani Hand-Palm Reading": "Romani Hand-Palm Reading",
-            "Unveil Your Destiny": "Unveil Your Destiny",
-            "Step into the mystical world of Romani palmistry. Upload images of your hands and let the ancient wisdom reveal the secrets of your past, present, and future.": "Step into the mystical world of Romani palmistry. Upload images of your hands and let the ancient wisdom reveal the secrets of your past, present, and future.",
-            "Upload Your Hand Images": "Upload Your Hand Images",
-            "Dominant Hand": "Dominant Hand",
-            "Other Hand": "Other Hand",
-            "Analyze Hands": "Analyze Hands",
-            "A Glimpse into Your Future": "A Glimpse into Your Future",
-            "The lines on your hand tell a story of a passionate and determined soul. You are destined for greatness, but there are challenges ahead that will test your spirit...": "The lines on your hand tell a story of a passionate and determined soul. You are destined for greatness, but there are challenges ahead that will test your spirit...",
-            "Unlock Your Full Reading": "Unlock Your Full Reading",
-            "For the complete, detailed analysis of your life's journey, please enter your email and proceed to payment.": "For the complete, detailed analysis of your life's journey, please enter your email and proceed to payment.",
-            "Pay Now": "Pay Now",
-            "&copy; 2025 Romani Hand-Palm Reading. All rights reserved.": "&copy; 2025 Romani Hand-Palm Reading. All rights reserved.",
-            "Analyzing...": "Analyzing..."
-        },
-        fr: {
-            "Romani Hand-Palm Reading": "Lecture de la Main à la Romani",
-            "Unveil Your Destiny": "Dévoilez Votre Destin",
-            "Step into the mystical world of Romani palmistry. Upload images of your hands and let the ancient wisdom reveal the secrets of your past, present, and future.": "Entrez dans le monde mystique de la chiromancie romani. Téléchargez des images de vos mains et laissez la sagesse ancienne révéler les secrets de votre passé, présent et futur.",
-            "Upload Your Hand Images": "Téléchargez les Images de Vos Mains",
-            "Dominant Hand": "Main Dominante",
-            "Other Hand": "Autre Main",
-            "Analyze Hands": "Analyser les Mains",
-            "A Glimpse into Your Future": "Un Aperçu de Votre Avenir",
-            "The lines on your hand tell a story of a passionate and determined soul. You are destined for greatness, but there are challenges ahead that will test your spirit...": "Les lignes de votre main racontent l'histoire d'une âme passionnée et déterminée. Vous êtes destiné à la grandeur, mais des défis à venir mettront votre esprit à l'épreuve...",
-            "Unlock Your Full Reading": "Débloquez Votre Lecture Complète",
-            "For the complete, detailed analysis of your life's journey, please enter your email and proceed to payment.": "Pour l'analyse complète et détaillée de votre parcours de vie, veuillez entrer votre email et procéder au paiement.",
-            "Pay Now": "Payer Maintenant",
-            "&copy; 2025 Romani Hand-Palm Reading. All rights reserved.": "&copy; 2025 Lecture de la Main à la Romani. Tous droits réservés.",
-            "Analyzing...": "Analyse en cours..."
-        },
-        pt: {
-            "Romani Hand-Palm Reading": "Leitura de Mão Cigana",
-            "Unveil Your Destiny": "Desvende o Seu Destino",
-            "Step into the mystical world of Romani palmistry. Upload images of your hands and let the ancient wisdom reveal the secrets of your past, present, and future.": "Entre no mundo místico da quiromancia cigana. Carregue imagens das suas mãos e deixe a sabedoria antiga revelar os segredos do seu passado, presente e futuro.",
-            "Upload Your Hand Images": "Carregar Imagens das Suas Mãos",
-            "Dominant Hand": "Mão Dominante",
-            "Other Hand": "Outra Mão",
-            "Analyze Hands": "Analisar Mãos",
-            "A Glimpse into Your Future": "Um Vislumbre do Seu Futuro",
-            "The lines on your hand tell a story of a passionate and determined soul. You are destined for greatness, but there are challenges ahead that will test your spirit...": "As linhas da sua mão contam a história de uma alma apaixonada e determinada. Você está destinado à grandeza, mas há desafios pela frente que testarão o seu espírito...",
-            "Unlock Your Full Reading": "Desbloqueie a Sua Leitura Completa",
-            "For the complete, detailed analysis of your life's journey, please enter your email and proceed to payment.": "Para a análise completa e detalhada da sua jornada de vida, por favor, insira o seu email e prossiga para o pagamento.",
-            "Pay Now": "Pagar Agora",
-            "&copy; 2025 Romani Hand-Palm Reading. All rights reserved.": "&copy; 2025 Leitura de Mão Cigana. Todos os direitos reservados.",
-            "Analyzing...": "Analisando..."
-        },
-        ca: {
-            "Romani Hand-Palm Reading": "Lectura de Mà Gitana",
-            "Unveil Your Destiny": "Desvetlla el Teu Destí",
-            "Step into the mystical world of Romani palmistry. Upload images of your hands and let the ancient wisdom reveal the secrets of your past, present, and future.": "Entra al món místic de la quiromància gitana. Puja imatges de les teves mans i deixa que l'antiga saviesa reveli els secrets del teu passat, present i futur.",
-            "Upload Your Hand Images": "Puja les Imatges de les Teves Mans",
-            "Dominant Hand": "Mà Dominant",
-            "Other Hand": "Altra Mà",
-            "Analyze Hands": "Analitzar Mans",
-            "A Glimpse into Your Future": "Un Vistazo al Teu Futur",
-            "The lines on your hand tell a story of a passionate and determined soul. You are destined for greatness, but there are challenges ahead that will test your spirit...": "Les línies de la teva mà expliquen la història d'una ànima apassionada i determinada. Estàs destinat a la grandesa, però hi ha reptes per endavant que posaran a prova el teu esperit...",
-            "Unlock Your Full Reading": "Desbloqueja la Teva Lectura Completa",
-            "For the complete, detailed analysis of your life's journey, please enter your email and proceed to payment.": "Per a l'anàlisi completa i detallada del teu viatge de vida, si us plau, introdueix el teu correu electrònic i procedeix al pagament.",
-            "Pay Now": "Pagar Ara",
-            "&copy; 2025 Romani Hand-Palm Reading. All rights reserved.": "&copy; 2025 Lectura de Mà Gitana. Tots els drets reservats.",
-            "Analyzing...": "Analitzant..."
-        }
-    };
+    const dominantHandUploadBtn = document.getElementById('dominantHandUploadBtn');
+    const dominantHandCaptureBtn = document.getElementById('dominantHandCaptureBtn');
+    const dominantHandInput = document.getElementById('dominantHandInput');
+    const dominantHandPreview = document.getElementById('dominantHandPreview');
+    const dominantHandRetakeBtn = document.getElementById('dominantHandRetakeBtn');
 
-    let currentLang = 'en';
+    const otherHandUploadBtn = document.getElementById('otherHandUploadBtn');
+    const otherHandCaptureBtn = document.getElementById('otherHandCaptureBtn');
+    const otherHandInput = document.getElementById('otherHandInput');
+    const otherHandPreview = document.getElementById('otherHandPreview');
+    const otherHandRetakeBtn = document.getElementById('otherHandRetakeBtn');
 
-    function setLanguage(lang) {
-        currentLang = lang;
-        langElements.forEach(el => {
-            const key = el.dataset.langKey || el.innerText;
-            if (!el.dataset.langKey) {
-                el.dataset.langKey = key;
-            }
-            if (translations[lang] && translations[lang][key]) {
-                el.innerText = translations[lang][key];
-            }
-        });
-        document.documentElement.lang = lang;
-        languageButtons.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.langSwitch === lang);
-        });
+    const getBriefReadingButton = document.getElementById('getBriefReadingButton');
+    const unlockDetailedReadingButton = document.getElementById('unlockDetailedReadingButton');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+
+    const briefReadingDisplay = document.getElementById('briefReadingDisplay');
+    const briefReadingContent = document.getElementById('briefReadingContent');
+    const detailedReadingDisplay = document.getElementById('detailedReadingDisplay');
+    const detailedReadingContent = document.getElementById('detailedReadingContent');
+
+    const messageBox = document.getElementById('messageBox');
+    const messageTitle = document.getElementById('messageTitle');
+    const messageContent = document.getElementById('messageContent');
+    const messageCloseButton = document.getElementById('messageCloseButton');
+    const overlay = document.getElementById('overlay');
+    const radioLeft = document.getElementById('radioLeft');
+    const radioRight = document.getElementById('radioRight');
+
+    // Camera Modal Elements
+    const cameraModal = document.getElementById('cameraModal');
+    const cameraFeed = document.getElementById('cameraFeed');
+    const cameraCanvas = document.getElementById('cameraCanvas');
+    const captureButton = document.getElementById('captureButton');
+    const cancelCameraButton = document.getElementById('cancelCameraButton');
+    let currentStream;
+    let currentHandForCapture;
+
+    let dominantHandChoice = '';
+    let dominantHandBase64 = null;
+    let otherHandBase64 = null;
+
+    // --- Functions ---
+
+    function showMessageBox(title, message) {
+        messageTitle.textContent = title;
+        messageContent.textContent = message;
+        messageBox.style.display = 'block';
+        overlay.style.display = 'block';
     }
 
-    languageButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            setLanguage(button.dataset.langSwitch);
-        });
-    });
+    function hideMessageBox() {
+        messageBox.style.display = 'none';
+        overlay.style.display = 'none';
+    }
 
-    analyzeBtn.addEventListener('click', async () => {
-        if (dominantHandInput.files.length === 0) {
-            alert('Please upload an image for your dominant hand.');
-            return;
+    function updateButtonState() {
+        getBriefReadingButton.disabled = !(dominantHandBase64 && otherHandBase64 && dominantHandChoice);
+    }
+
+    function handleImageUpload(inputElement, previewElement, base64VarSetter, retakeButton) {
+        const file = inputElement.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewElement.src = e.target.result;
+                previewElement.style.display = 'block';
+                retakeButton.classList.remove('hidden');
+                const base64Data = e.target.result.split(',')[1];
+                base64VarSetter(base64Data);
+                updateButtonState();
+            };
+            reader.onerror = () => showMessageBox('Error', 'Failed to read the image file.');
+            reader.readAsDataURL(file);
         }
+    }
 
-        const formData = new FormData();
-        formData.append('dominantHand', dominantHandInput.files[0]);
-        if (otherHandInput.files.length > 0) {
-            formData.append('otherHand', otherHandInput.files[0]);
+    async function startCamera(hand) {
+        currentHandForCapture = hand;
+        try {
+            currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+            cameraFeed.srcObject = currentStream;
+            cameraModal.classList.remove('hidden');
+            overlay.style.display = 'block';
+        } catch (err) {
+            showMessageBox('Camera Error', 'Could not access your camera. Please grant permission and try again.');
         }
+    }
 
-        // Show loading state
-        readingSection.classList.remove('hidden');
-        teaserReading.innerText = translations[currentLang]["Analyzing..."];
+    function stopCamera() {
+        if (currentStream) {
+            currentStream.getTracks().forEach(track => track.stop());
+        }
+        cameraModal.classList.add('hidden');
+        overlay.style.display = 'none';
+    }
+
+    function capturePhoto() {
+        const context = cameraCanvas.getContext('2d');
+        cameraCanvas.width = cameraFeed.videoWidth;
+        cameraCanvas.height = cameraFeed.videoHeight;
+        context.drawImage(cameraFeed, 0, 0, cameraCanvas.width, cameraCanvas.height);
+        const imageDataURL = cameraCanvas.toDataURL('image/jpeg');
+        const base64Data = imageDataURL.split(',')[1];
+
+        if (currentHandForCapture === 'dominant') {
+            dominantHandBase64 = base64Data;
+            dominantHandPreview.src = imageDataURL;
+            dominantHandPreview.style.display = 'block';
+            dominantHandRetakeBtn.classList.remove('hidden');
+        } else {
+            otherHandBase64 = base64Data;
+            otherHandPreview.src = imageDataURL;
+            otherHandPreview.style.display = 'block';
+            otherHandRetakeBtn.classList.remove('hidden');
+        }
+        stopCamera();
+        updateButtonState();
+    }
+
+    async function getAIReading(type) {
+        loadingSpinner.style.display = 'block';
+        getBriefReadingButton.disabled = true;
+        unlockDetailedReadingButton.disabled = true;
 
         try {
+            const formData = new FormData();
+            formData.append('dominantHandChoice', dominantHandChoice);
+            formData.append('dominantHand', dominantHandBase64);
+            formData.append('otherHand', otherHandBase64);
+            formData.append('readingType', type);
+
             const response = await fetch('/analyze', {
                 method: 'POST',
                 body: formData,
             });
 
             if (!response.ok) {
-                throw new Error('Analysis failed. Please try again.');
+                const error = await response.json();
+                throw new Error(error.error || 'Analysis failed.');
             }
 
             const result = await response.json();
-            teaserReading.innerText = result.reading;
 
+            if (type === 'brief') {
+                briefReadingContent.textContent = result.reading;
+                briefReadingDisplay.classList.remove('hidden');
+                unlockDetailedReadingButton.disabled = false;
+            } else {
+                detailedReadingContent.textContent = result.reading;
+                detailedReadingDisplay.classList.remove('hidden');
+            }
         } catch (error) {
-            console.error('Error:', error);
-            teaserReading.innerText = 'An error occurred during analysis. Please check the console and try again.';
+            showMessageBox('Error', `Failed to get reading: ${error.message}`);
+        } finally {
+            loadingSpinner.style.display = 'none';
+            getBriefReadingButton.disabled = false;
         }
+    }
+
+    // --- Event Listeners ---
+
+    messageCloseButton.addEventListener('click', hideMessageBox);
+
+    dominantHandRadios.forEach(radio => {
+        radio.addEventListener('change', (event) => {
+            dominantHandChoice = event.target.value;
+            dominantHandLabel.textContent = dominantHandChoice;
+            otherHandLabel.textContent = dominantHandChoice === 'left' ? 'right' : 'left';
+            radioLeft.classList.toggle('selected', dominantHandChoice === 'left');
+            radioRight.classList.toggle('selected', dominantHandChoice === 'right');
+            dominantHandSection.classList.add('hidden');
+            dominantHandUploadSection.classList.remove('hidden');
+            otherHandUploadSection.classList.remove('hidden');
+        });
     });
 
-    paymentForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Thank you! In a real application, the full reading would be sent to your email.');
+    dominantHandUploadBtn.addEventListener('click', () => dominantHandInput.click());
+    otherHandUploadBtn.addEventListener('click', () => otherHandInput.click());
+
+    dominantHandInput.addEventListener('change', () => handleImageUpload(dominantHandInput, dominantHandPreview, (data) => dominantHandBase64 = data, dominantHandRetakeBtn));
+    otherHandInput.addEventListener('change', () => handleImageUpload(otherHandInput, otherHandPreview, (data) => otherHandBase64 = data, otherHandRetakeBtn));
+
+    dominantHandRetakeBtn.addEventListener('click', () => {
+        dominantHandInput.value = '';
+        dominantHandPreview.style.display = 'none';
+        dominantHandRetakeBtn.classList.add('hidden');
+        dominantHandBase64 = null;
+        updateButtonState();
     });
 
-    // Set initial language
-    setLanguage('en');
+    otherHandRetakeBtn.addEventListener('click', () => {
+        otherHandInput.value = '';
+        otherHandPreview.style.display = 'none';
+        otherHandRetakeBtn.classList.add('hidden');
+        otherHandBase64 = null;
+        updateButtonState();
+    });
+
+    dominantHandCaptureBtn.addEventListener('click', () => startCamera('dominant'));
+    otherHandCaptureBtn.addEventListener('click', () => startCamera('other'));
+    captureButton.addEventListener('click', capturePhoto);
+    cancelCameraButton.addEventListener('click', stopCamera);
+
+    getBriefReadingButton.addEventListener('click', () => getAIReading('brief'));
+
+    unlockDetailedReadingButton.addEventListener('click', async () => {
+        showMessageBox('Processing Payment', 'Simulating payment of $9.99...');
+        unlockDetailedReadingButton.disabled = true;
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        hideMessageBox();
+        showMessageBox('Payment Successful!', 'Generating your detailed reading...');
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        hideMessageBox();
+        await getAIReading('detailed');
+    });
 });
