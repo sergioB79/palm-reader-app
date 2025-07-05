@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="en">Romani Hand-Palm Reading</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="language-switcher">
+                <button data-lang-switch="en" class="active">EN</button>
+                <button data-lang-switch="fr">FR</button>
+                <button data-lang-switch="pt">PT</button>
+                <button data-lang-switch="ca">CA</button>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section id="intro">
+            <h1 data-lang="en">Unveil Your Destiny</h1>
+            <p data-lang="en">Step into the mystical world of Romani palmistry. Upload images of your hands and let the ancient wisdom reveal the secrets of your past, present, and future.</p>
+        </section>
+        <section id="upload-section">
+            <h2 data-lang="en">Upload Your Hand Images</h2>
+            <div class="upload-container">
+                <div class="upload-box">
+                    <label for="dominant-hand" data-lang="en">Dominant Hand</label>
+                    <input type="file" id="dominant-hand" accept="image/*">
+                </div>
+                <div class="upload-box">
+                    <label for="other-hand" data-lang="en">Other Hand</label>
+                    <input type="file" id="other-hand" accept="image/*">
+                </div>
+            </div>
+            <button id="analyze-btn" data-lang="en">Analyze Hands</button>
+        </section>
+        <section id="reading-section" class="hidden">
+            <h2 data-lang="en">A Glimpse into Your Future</h2>
+            <div id="teaser-reading">
+                <p data-lang="en">The lines on your hand tell a story of a passionate and determined soul. You are destined for greatness, but there are challenges ahead that will test your spirit...</p>
+            </div>
+            <div id="payment-section">
+                <h3 data-lang="en">Unlock Your Full Reading</h3>
+                <p data--lang="en">For the complete, detailed analysis of your life's journey, please enter your email and proceed to payment.</p>
+                <form id="payment-form">
+                    <input type="email" id="email-input" placeholder="Enter your email" required>
+                    <button type="submit" data-lang="en">Pay Now</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p data-lang="en">&copy; 2025 Romani Hand-Palm Reading. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+
+body {
+    background-color: #1a1a2e;
+    color: #e0e0e0;
+    font-family: 'Cinzel', serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+header {
+    padding: 1rem;
+}
+
+.language-switcher button {
+    background: none;
+    border: 1px solid #e0e0e0;
+    color: #e0e0e0;
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.language-switcher button.active, .language-switcher button:hover {
+    background-color: #e0e0e0;
+    color: #1a1a2e;
+}
+
+main {
+    padding: 2rem;
+}
+
+section {
+    margin-bottom: 3rem;
+}
+
+h1 {
+    font-size: 3rem;
+    color: #f7b733;
+}
+
+h2 {
+    font-size: 2rem;
+    color: #f7b733;
+}
+
+.upload-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.upload-box {
+    border: 2px dashed #f7b733;
+    padding: 2rem;
+    width: 200px;
+}
+
+.upload-box label {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+button, input[type="submit"] {
+    background-color: #f7b733;
+    color: #1a1a2e;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #e0e0e0;
+}
+
+.hidden {
+    display: none;
+}
+
+#reading-section {
+    border-top: 1px solid #f7b733;
+    padding-top: 2rem;
+}
+
+#payment-form input[type="email"] {
+    padding: 1rem;
+    width: 300px;
+    margin-right: 1rem;
+}
+
+footer {
+    margin-top: 3rem;
+    padding: 1rem;
+    border-top: 1px solid #e0e0e0;
+}
