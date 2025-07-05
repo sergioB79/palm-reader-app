@@ -58,7 +58,7 @@ app.post('/analyze', upload.none(), async (req, res) => {
                 }
             ],
         };
-
+        console.log("GEMINI_API_KEY is:", process.env.GEMINI_API_KEY); 
         const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
             return res.status(500).json({ error: 'Server configuration error: Missing API key.' });
